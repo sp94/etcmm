@@ -46,8 +46,8 @@ b2 = subplot(get(b,(1,0)))
 c = subplot(get(gs0,(1,1)))
 title("c", loc="left", ha="right", weight="bold")
 
-# Figure 2a  ##################### TODO CHECK/CHANGE AFTER TE/TM RELABELED
-data = load("./2d/data/figure2a.jld")
+# Figure 2a
+data = load("./fem/data/figure2a.jld")
 lam0s = data["lam0s"]
 neffs_TE = data["neffs_TE"]
 neffs_TM = data["neffs_TM"]
@@ -72,62 +72,61 @@ ylim(0.2e-2, 5e5)
 yticks([1e-2,1e5])
 
 # Figure 2b
-# lam0s = Float64[]
-# neffs = ComplexF64[]
-# dname = joinpath(".", "Ti", "out_0.75")
-# for fname in readdir(dname)
-#     data = load(joinpath(dname,fname))
-#     lam0 = data["lam0"]
-#     neff_lo, neff_hi = data["neffs"][1:2]
-#     push!(lam0s, lam0)
-#     push!(neffs, (neff_lo+neff_hi)/2)
-# end
-# idx = sortperm(lam0s)
-# lam0s = lam0s[idx]
-# neffs = neffs[idx]
-# subplot(b1)
-# plot(lam0s/1000, +real(neffs.^2), "-", color="#be2b2b")
-# ylabel(L"\mathrm{Re}[\hat{\epsilon}_\mathrm{eff}]")
-# xticks([2,100,240], ["","","",""])
-# subplot(b2)
-# semilogy(lam0s/1000, -imag(neffs.^2), color="#be2b2b")
-# xlabel("Wavelength [μm]")
-# ylabel(L"\mathrm{Im}[\hat{\epsilon}_\mathrm{eff}]")
-# xticks([2,100,240])
-# ylim(10^-3.5, 10^0.5)
-# yticks([1e-3, 1e0])
+lam0s = Float64[]
+neffs = ComplexF64[]
+dname = "./fdfd/data/figure2b/"
+for fname in readdir(dname)
+    data = load(joinpath(dname,fname))
+    lam0 = data["lam0"]
+    neff_lo, neff_hi = data["neffs"][1:2]
+    push!(lam0s, lam0)
+    push!(neffs, (neff_lo+neff_hi)/2)
+end
+idx = sortperm(lam0s)
+lam0s = lam0s[idx]
+neffs = neffs[idx]
+subplot(b1)
+plot(lam0s, +real(neffs.^2), "-", color="#be2b2b")
+ylabel(L"\mathrm{Re}[\hat{\epsilon}_\mathrm{eff}]")
+xticks([2,100,240], ["","","",""])
+subplot(b2)
+semilogy(lam0s, -imag(neffs.^2), color="#be2b2b")
+xlabel("Wavelength [μm]")
+ylabel(L"\mathrm{Im}[\hat{\epsilon}_\mathrm{eff}]")
+xticks([2,100,240])
+ylim(10^-3.5, 10^0.5)
+yticks([1e-3, 1e0])
 
 # Figure 2c
-# subplot(c)
-# #title("Titanium cylinders\n"*L"G=2\,\mathrm{nm}, f=75\%", fontsize=8)
+subplot(c)
 # # Germanium
 # d_ge = lam0s_ge*1e-6./ks_ge/4/pi
 # semilogy(lam0s_ge, d_ge, "C2--")
-# xlabel("Wavelength [μm]")
-# ylabel("Penetration\nlength [m]")
-# xlim(-10,250)
-# ylim(1e-4,10^-0.75)
-# xticks([2,100,240])
+xlabel("Wavelength [μm]")
+ylabel("Penetration\nlength [m]")
+xlim(-10,250)
+ylim(1e-4,10^-0.75)
+xticks([2,100,240])
 # text(240,10^(-2.5),"Ge", ha="right", va="bottom", color="C2", fontsize=8)
-# # Titanium cylinder
-# dname = "./Ti_cubic_cyls/Ti/out_0.2/"
-# lam0s = []
-# neffs = []
-# for fname in readdir(dname)
-#     data = load(joinpath(dname,fname))
-#     lam0 = data["lam0"]
-#     neff = data["neffs"][1]
-#     push!(lam0s, lam0)
-#     push!(neffs, neff)
-# end
-# idx = sortperm(lam0s)
-# lam0s = lam0s[idx]
-# neffs = neffs[idx]
-# ks = -imag(neffs)
-# ds = lam0s*1e-9./(4pi*ks)
-# semilogy(lam0s/1000, ds, "-", color="#be2b2b")
+# Titanium cylinder
+dname = "./fdfd/data/figure2c/"
+lam0s = []
+neffs = []
+for fname in readdir(dname)
+    data = load(joinpath(dname,fname))
+    lam0 = data["lam0"]
+    neff = data["neffs"][1]
+    push!(lam0s, lam0)
+    push!(neffs, neff)
+end
+idx = sortperm(lam0s)
+lam0s = lam0s[idx]
+neffs = neffs[idx]
+ks = -imag(neffs)
+ds = lam0s*1e-6./(4pi*ks)
+semilogy(lam0s, ds, "-", color="#be2b2b")
 # text(240,1e-1, "Ti", ha="right", va="top", color="#be2b2b", fontsize=8)
-# yticks([1e-4,1e-1])
+yticks([1e-4,1e-1])
 
 fig.align_ylabels([a1,a2])
 fig.align_ylabels([b1,b2,c])
@@ -158,7 +157,7 @@ ylabel(L"\mathrm{Im}[n_\mathrm{eff}]")
 xticks([2,100,240])
 ylim(0,0.11)
 yticks([0,0.05,0.1])
-data = load("./2d/data/figure4a.jld")
+data = load("./fem/data/figure4a.jld")
 lam0s = data["lam0s"]
 for label in ["Al", "Ag", "Au", "Ti"]
     neffs = data["neffs_$(label)"]
@@ -172,7 +171,7 @@ legend(loc="upper right", ncol=4, handlelength=1.0)
 b = gs.GridSpecFromSubplotSpec(2, 1, subplot_spec=get(gs0,(1,slice(0,2))), hspace=0.05)
 b1 = subplot(get(b,(0,0)))
 b2 = subplot(get(b,(1,0)))
-data = load("./2d/data/figure4b.jld")
+data = load("./fem/data/figure4b.jld")
 d_by_delta_s = data["d_by_delta_s"]
 for (i,G_by_d) in enumerate([1/2, 1/4, 1/8])
     neffs = data["neffs_G_by_d=$(G_by_d)"]
@@ -252,7 +251,7 @@ gs0 = gs.GridSpec(1, 2, wspace=0.9)
 a = gs.GridSpecFromSubplotSpec(2, 1, subplot_spec=get(gs0,(0,0)), hspace=0.1)
 a1 = subplot(get(a,(0,0)))
 a2 = subplot(get(a,(1,0)))
-data = load("./2d/data/figure5a.jld")
+data = load("./fem/data/figure5a.jld")
 aspects = data["aspects"]
 for (i,G_by_d) in enumerate([1/2, 1/4, 1/8])
     neffs = data["neffs_G_by_d=$(G_by_d)"]
@@ -310,7 +309,7 @@ ax1.annotate("", xy=(1.5, 0.75), xytext=(-1.5, 0.75), arrowprops=Dict("arrowstyl
 b = gs.GridSpecFromSubplotSpec(2, 1, subplot_spec=get(gs0,(0,1)), hspace=0.1)
 b1 = subplot(get(b,(0,0)))
 b2 = subplot(get(b,(1,0)))
-data = load("./2d/data/figure5b.jld")
+data = load("./fem/data/figure5b.jld")
 ds = data["ds"]
 neffs = data["neffs"]
 neffs_MG = data["neffs_MG"]
