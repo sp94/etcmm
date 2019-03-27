@@ -1,7 +1,6 @@
 using PyPlot
 using PyCall
 using JLD
-using CubicSplines
 using LorentzDrudeMetals
 patches = pyimport("matplotlib.patches")
 inset_locator = pyimport("mpl_toolkits.axes_grid1.inset_locator")
