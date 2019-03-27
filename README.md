@@ -1,4 +1,4 @@
-# etcmm
+# Extraordinarily transparent compact metallic metamaterials
 This repository contains the Julia codes used to generate and plot the figures of the paper 'Extraordinarily transparent compact metallic metamaterials'.
 
 The data has already been generated and included in the repository. To regenerate the data, call `julia run_calculations.jl` from the `fdfd` or `fem` directories.
