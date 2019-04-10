@@ -273,8 +273,8 @@ function mplot(m::Mesh; tile::Int=1)
     for ix in 1:tile, iy in 1:tile
         Lx = m.xlim[2] - m.xlim[1]
         Ly = m.ylim[2] - m.ylim[1]
-        xs = [no.x for no in m.nos] + (ix-1)*Lx
-        ys = [no.y for no in m.nos] + (iy-1)*Ly
+        xs = [no.x for no in m.nos] .+ (ix-1)*Lx
+        ys = [no.y for no in m.nos] .+ (iy-1)*Ly
         eps = [el.ep for el in m.els]
         mus = [el.mu for el in m.els]
         tris = [el.nos[ino].mi for el in m.els, ino in 1:3]
