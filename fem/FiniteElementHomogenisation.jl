@@ -267,9 +267,9 @@ Base.show(io::IO, m::Mesh) = print(io, "Mesh with $(length(m.nos)) nodes, $(leng
 function mplot(m::Mesh; tile::Int=1)
     figure()
     subplot(1,2,1)
-    gca()[:set_aspect]("equal", "datalim")
+    gca().set_aspect("equal", "datalim")
     subplot(1,2,2)
-    gca()[:set_aspect]("equal", "datalim")
+    gca().set_aspect("equal", "datalim")
     for ix in 1:tile, iy in 1:tile
         Lx = m.xlim[2] - m.xlim[1]
         Ly = m.ylim[2] - m.ylim[1]
